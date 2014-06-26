@@ -57,50 +57,62 @@ public class DownloadPolicyServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		byte[] zipBundle = null;
-		
-//		ServletContext ctx = getServletContext();
-//		DBConnection dbConnection = null;
-//		Object dbConn = ctx.getAttribute("DBConnection");
-//		if (dbConn != null && dbConn instanceof DBConnection) {
-//			dbConnection = (DBConnection) dbConn;
-//		} else {
-//			// initialize DB Connection with "global" parameters from web.xml
-//			String dbURL = ctx.getInitParameter("dbURL");
-//			String dbUser = ctx.getInitParameter("dbUser");
-//			String dbPwd = ctx.getInitParameter("dbPassword");
-//
-//			try {
-//				dbConnection = DBConnectionManager.getConnection(dbURL, dbUser,
-//						dbPwd);
-//				ctx.setAttribute("DBConnection", dbConnection);
-//				System.out.println("DB Connection initialized successfully.");
-//			} catch (CommunicationException ce) {
-//				System.err.println("Cannot connect to database");
-//				ce.printStackTrace();
-//			} catch (ClassNotFoundException e) {
-//				e.printStackTrace();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
+
+		// ServletContext ctx = getServletContext();
+		// DBConnection dbConnection = null;
+		// Object dbConn = ctx.getAttribute("DBConnection");
+		// if (dbConn != null && dbConn instanceof DBConnection) {
+		// dbConnection = (DBConnection) dbConn;
+		// } else {
+		// // initialize DB Connection with "global" parameters from web.xml
+		// String dbURL = ctx.getInitParameter("dbURL");
+		// String dbUser = ctx.getInitParameter("dbUser");
+		// String dbPwd = ctx.getInitParameter("dbPassword");
+		//
+		// try {
+		// dbConnection = DBConnectionManager.getConnection(dbURL, dbUser,
+		// dbPwd);
+		// ctx.setAttribute("DBConnection", dbConnection);
+		// System.out.println("DB Connection initialized successfully.");
+		// } catch (CommunicationException ce) {
+		// System.err.println("Cannot connect to database");
+		// ce.printStackTrace();
+		// } catch (ClassNotFoundException e) {
+		// e.printStackTrace();
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// }
+		// }
+
 		DBConnection dbConnection = DBHelper.getConnection();
-		zipBundle = dbConnection.getLatestPolicy();
 
-		// // Serve the data to response's stream
-		String filename = "smdm_update_bundle.zip";
+		String version = request.getHeader("Version-Request");
+		if (version != null) {
+			System.out.println("Client is checking policy version");
+			if (version.equals("NONSENSE")) {
+				response.setHeader("Policy-Version",
+						dbConnection.getLatestPolicyVersion());
 
-		if (zipBundle != null) {
-			response.setHeader("Content-Disposition", "attachment; filename="
-					+ filename);
-
-			response.setContentType("application/x-download");
-			response.setContentLength(zipBundle.length);
-			response.getOutputStream().write(zipBundle);
+			}
 		} else {
-			response.sendError(500, "Download of the policy failed.\n\n");
+			System.out.println("Client is downloading the policy");
+			zipBundle = dbConnection.getLatestPolicy();
+
+			// // Serve the data to response's stream
+			String filename = "smdm_update_bundle.zip";
+
+			if (zipBundle != null) {
+				response.setHeader("Content-Disposition",
+						"attachment; filename=" + filename);
+
+				response.setContentType("application/x-download");
+				response.setContentLength(zipBundle.length);
+				response.getOutputStream().write(zipBundle);
+			} else {
+				response.sendError(500, "Download of the policy failed.\n\n");
+			}
 		}
-		
+
 		dbConnection.close();
 	}
 

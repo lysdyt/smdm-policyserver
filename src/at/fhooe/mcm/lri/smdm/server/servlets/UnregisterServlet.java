@@ -99,6 +99,7 @@ public class UnregisterServlet extends HttpServlet {
 				if (res) {
 					// everything is awesome!
 					resp.getWriter().println(OK_STATUS);
+					System.out.println("Device with id " + deviceID + " sucessfully unregistered");
 				} else {
 					// what the duck happened?
 					resp.getWriter()

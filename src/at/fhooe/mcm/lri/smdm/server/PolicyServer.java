@@ -328,6 +328,16 @@ public class PolicyServer extends UI {
 						.open("/SMDM-PolicyServer3/unregister", "_new");
 			}
 		});
+		menuBar.addItem("Download Policy", new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				System.out.println("Download policy pressed");
+				showNotification("Test");
+				getUI().getPage()
+						.open("/SMDM-PolicyServer3/PolicyServlet", "_new");
+			
+			}
+		});
 
 		verticalLayout_1.addComponent(menuBar);
 

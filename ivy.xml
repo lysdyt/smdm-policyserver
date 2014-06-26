@@ -63,5 +63,9 @@
 		
 		<!-- Login form --> 
 		<dependency org="org.vaadin.addons" name="loginform" rev="0.3.3" />
+		
+		<!-- GSON -->
+		<dependency org="com.google.code.gson" name="gson" rev="2.2.4"/>
+		
 	</dependencies>
 </ivy-module>

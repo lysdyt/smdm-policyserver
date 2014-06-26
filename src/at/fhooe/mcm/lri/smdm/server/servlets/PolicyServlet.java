@@ -92,9 +92,21 @@ public class PolicyServlet extends HttpServlet {
 //        Key key = KeyFactory.createKey(Policy.class.getSimpleName(), user.getEmail());
 //        List<Policy> policies = (List<Policy>) query.execute(key);
         
-        resp.setContentType("text/plain");
-        PrintWriter writer = resp.getWriter();
-        writer.println("Here should/could be a policy");
+		byte[] zipBundle = dbConnection.getLatestPolicy();
+
+		// // Serve the data to response's stream
+		String filename = "smdm_update_bundle.zip";
+
+		if (zipBundle != null) {
+			resp.setHeader("Content-Disposition",
+					"attachment; filename=" + filename);
+
+			resp.setContentType("application/x-download");
+			resp.setContentLength(zipBundle.length);
+			resp.getOutputStream().write(zipBundle);
+		} else {
+			resp.sendError(500, "Download of the policy failed.\n\n");
+		}
 //        if (policies != null && policies.size() > 0) {
 //            // The query should just return one item.
 //            Policy policy = policies.get(0);
@@ -108,7 +120,7 @@ public class PolicyServlet extends HttpServlet {
 //        } else {
 //            writer.println("{}");
 //        }
-        writer.close();
+        dbConnection.close();
     }
       
       @Override

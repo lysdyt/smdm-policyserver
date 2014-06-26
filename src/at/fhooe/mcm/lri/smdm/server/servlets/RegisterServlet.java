@@ -112,6 +112,7 @@ DBConnection dbConnection = DBHelper.getConnection();
 				if (res) {
 					// everything is awesome!
 					resp.getWriter().println(OK_STATUS);
+					System.out.println("Device with id " + deviceID + " successfully registered");
 				} else {
 					// what the duck happened?
 					resp.getWriter()

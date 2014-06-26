@@ -3,6 +3,7 @@ package at.fhooe.mcm.lri.smdm.server.db;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,8 +16,8 @@ import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
 
-public class DBMySQLConnection implements DBConnection {
-
+public class DBMySQLConnection implements DBConnection, Serializable {
+	private static final long serialVersionUID = 1L;
 	private Connection connection;
 	private Statement statement;
 
@@ -177,7 +178,7 @@ public class DBMySQLConnection implements DBConnection {
 			sql.append("', '");
 			sql.append(info.getTimestamp().toString());
 			sql.append("', '");
-			sql.append(info.getPosition());
+			sql.append(info.getPositionGPS());
 			sql.append("', '");
 			sql.append(info.getEnforcedPolicyVersion());
 			sql.append("', '");
@@ -225,20 +226,33 @@ public class DBMySQLConnection implements DBConnection {
 			}
 
 			boolean camera_disabled;
-			int boolValue = set.getInt("camera_disabled");
-			System.out.println("Read bool value for camera disabled: "
-					+ boolValue);
-			if (boolValue == 1) {
-				// should be true
-				camera_disabled = true;
-			} else {
-				camera_disabled = false;
-			}
+//			int boolValue = set.getString("camera_disabled");
+//			System.out.println("Read bool value for camera disabled: "
+//					+ boolValue);
+//			if (boolValue == 1) {
+//				// should be true
+//				camera_disabled = true;
+//			} else {
+//				camera_disabled = false;
+//			}
+			camera_disabled = Boolean.valueOf(set.getString("camera_disabled"));
 
-			info = new DBDeviceInfo(set.getString("device_id"),
-					set.getTimestamp("timestamp"), set.getString("position"),
-					set.getLong("enforced_policy_version"), camera_disabled,
-					set.getInt("mnc"), set.getInt("cell_id"), set.getInt("ncc"));
+			info  = new DBDeviceInfo();
+			info.setDeviceId(set.getString("device_id"));
+			info.setTimestamp(set.getTimestamp("timestamp"));
+			info.setPositionGPS(set.getString("position"));
+			info.setEnforcedPolicyVersion(set.getString("enforced_policy_version"));
+			info.setCameraDisabled(camera_disabled);
+			info.setMnc(set.getInt("mnc"));
+			info.setCellId(set.getInt("cell_id"));
+			info.setNcc(set.getInt("ncc"));
+			info.setDump(set.getString("dump"));
+			
+			
+//			info = new DBDeviceInfo(set.getString("device_id"),
+//					set.getTimestamp("timestamp"), set.getString("position"),
+//					set.getLong("enforced_policy_version"), camera_disabled,
+//					set.getInt("mnc"), set.getInt("cell_id"), set.getInt("ncc"));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -296,23 +310,37 @@ public class DBMySQLConnection implements DBConnection {
 				return infos;
 			}
 
+			DBDeviceInfo info;
 			boolean camera_disabled;
 			do {
-				int boolValue = set.getInt("camera_disabled");
-				System.out.println("Read bool value for camera disabled: "
-						+ boolValue);
-				if (boolValue == 1) {
-					// should be true
-					camera_disabled = true;
-				} else {
-					camera_disabled = false;
-				}
+//				int boolValue = set.getInt("camera_disabled");
+//				System.out.println("Read bool value for camera disabled: "
+//						+ boolValue);
+//				if (boolValue == 1) {
+//					// should be true
+//					camera_disabled = true;
+//				} else {
+//					camera_disabled = false;
+//				}
+				camera_disabled = Boolean.valueOf(set.getString("camera_disabled"));
 
-				infos.add(new DBDeviceInfo(set.getString("device_id"), set
-						.getTimestamp("timestamp"), set.getString("position"),
-						set.getLong("enforced_policy_version"),
-						camera_disabled, set.getInt("mn"), set
-								.getInt("cell_id"), set.getInt("ncc")));
+				info  = new DBDeviceInfo();
+				info.setDeviceId(set.getString("device_id"));
+				info.setTimestamp(set.getTimestamp("timestamp"));
+				info.setPositionGPS(set.getString("position"));
+				info.setEnforcedPolicyVersion(set.getString("enforced_policy_version"));
+				info.setCameraDisabled(camera_disabled);
+				info.setMnc(set.getInt("mn"));
+				info.setCellId(set.getInt("cell_id"));
+				info.setNcc(set.getInt("ncc"));
+				
+				infos.add(info);
+				
+//				infos.add(new DBDeviceInfo(set.getString("device_id"), set
+//						.getTimestamp("timestamp"), set.getString("position"),
+//						set.getLong("enforced_policy_version"),
+//						camera_disabled, set.getInt("mn"), set
+//								.getInt("cell_id"), set.getInt("ncc")));
 
 				System.out.println("Read devices infos from DB: "
 						+ infos.size());
@@ -356,6 +384,7 @@ public class DBMySQLConnection implements DBConnection {
 			statement = null;
 			connection.close();
 			connection = null;
+			System.out.println("DB Connection closed.");
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 			return false;
@@ -447,21 +476,50 @@ public class DBMySQLConnection implements DBConnection {
 	@Override
 	public boolean storeBlob(String blob) {
 
-		String sql = "INSERT INTO `deviceinfo` (`dump`) VALUES ('" + blob
-				+ "');";
+		if (blob != null) {
+			DBDeviceInfo info = DBDeviceInfo.fromJSON(blob);
 
-		try {
-			int ret = statement.executeUpdate(sql);
-			System.out.println("execurteUpdate returned: " + ret);
-			if (ret == 1) {
-				return true;
+			String sql = null;
+			if (info != null) {
+				StringBuffer sb = new StringBuffer();
+				sb.append("INSERT INTO `deviceinfo` (`device_id`, `position`, `enforced_policy_version`, `camera_disabled`, `mnc`, `cell_id`, `ncc`, `dump`) VALUES ('");
+				sb.append(info.getDeviceId());
+				sb.append("', '");
+				sb.append(info.getPositionGPS());
+				sb.append("', '");
+				sb.append(info.getEnforcedPolicyVersion());
+				sb.append("', '");
+				sb.append(info.getCameraDisabled());
+				sb.append("', '");
+				sb.append(info.getMnc());
+				sb.append("', '");
+				sb.append(info.getCellId());
+				sb.append("', '");
+				sb.append(info.getNcc());
+				sb.append("', '");
+				sb.append(blob);
+				sb.append("');");
+
+				sql = sb.toString();
+				System.out.println("SQL: " + sql);
+			} else {
+				sql = "INSERT INTO `deviceinfo` (`dump`) VALUES ('" + blob
+						+ "');";
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+			try {
+
+				System.out.println("SQL: " + sql);
+				int ret = statement.executeUpdate(sql);
+				System.out.println("execurteUpdate returned: " + ret);
+				if (ret == 1) {
+					return true;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
 		}
 		return false;
 	}
-
 }

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<app-ops>
+<pkg n="android">
+<uid n="1000">
+<op n="0" />
+<op n="3" t="1394978421341" d="8" />
+<op n="23" t="1394978437322" />
+<op n="24" t="1394980339509" d="219827" />
+<op n="31" t="1394978421306" />
+<op n="40" t="1395017101043" d="20" />
+<op n="41" t="1394978428676" d="42273419" />
+</uid>
+</pkg>
+<pkg n="com.android.phone">
+<uid n="1001">
+<op n="4" t="1395007244408" />
+<op n="6" t="1394978428599" />
+<op n="14" t="1394978427605" />
+<op n="15" m="0" />
+<op n="23" t="1394633163577" />
+<op n="40" t="1394978427577" d="42274518" />
+</uid>
+</pkg>
+<pkg n="media">
+<uid n="1013">
+<op n="40" t="1394978437856" d="3018" />
+</uid>
+</pkg>
+<pkg n="com.android.providers.calendar">
+<uid n="10001">
+<op n="8" t="1394978502347" />
+<op n="9" t="1394978437352" />
+<op n="40" t="1394978502352" d="12" />
+</uid>
+</pkg>
+<pkg n="com.android.dialer">
+<uid n="10004">
+<op n="6" t="1394978437291" />
+</uid>
+</pkg>
+<pkg n="com.android.providers.media">
+<uid n="10005">
+<op n="40" t="1394978438181" d="189" />
+</uid>
+</pkg>
+<pkg n="com.google.android.gsf">
+<uid n="10007">
+<op n="23" t="1394978434741" />
+<op n="40" t="1395018902269" d="173" />
+</uid>
+</pkg>
+<pkg n="com.google.android.gms">
+<uid n="10007">
+<op n="0" />
+<op n="40" t="1395018902133" d="4" />
+<op n="41" t="1394978433043" d="42269052" />
+</uid>
+</pkg>
+<pkg n="com.android.systemui">
+<uid n="10008">
+<op n="3" t="1394633953845" d="103" />
+<op n="4" t="1394978437248" />
+</uid>
+</pkg>
+<pkg n="com.android.keyguard">
+<uid n="10008">
+<op n="3" t="1394978466807" d="36" />
+<op n="40" t="1394978422800" d="591" />
+</uid>
+</pkg>
+<pkg n="com.android.launcher">
+<uid n="10009">
+<op n="3" t="1394634474958" d="92" />
+</uid>
+</pkg>
+<pkg n="com.android.mms">
+<uid n="10010">
+<op n="14" t="1394978453245" />
+<op n="15" m="0" t="1394978453105" />
+<op n="40" t="1394978453117" d="27" />
+</uid>
+</pkg>
+<pkg n="com.android.calendar">
+<uid n="10017">
+<op n="8" t="1394978497352" />
+<op n="9" t="1394978468137" />
+<op n="40" t="1394978455969" d="5036" />
+</uid>
+</pkg>
+<pkg n="com.android.deskclock">
+<uid n="10021">
+<op n="23" t="1394978497363" />
+<op n="40" t="1394978497364" d="13" />
+</uid>
+</pkg>
+<pkg n="com.android.music">
+<uid n="10035">
+<op n="31" t="1394978434714" />
+</uid>
+</pkg>
+<pkg n="com.android.sdksetup">
+<uid n="10045">
+<op n="23" t="1394633163315" />
+</uid>
+</pkg>
+</app-ops>

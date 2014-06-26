@@ -1,0 +1,20 @@
+{
+    "passwordHistoryLength": 3,
+    "specifiesGlobalProxy": false,
+    "encryptionRequested": false,
+    "maximumTimeToUnlock": 42,
+    "passwordExpirationDate": 0,
+    "minimumPasswordUpperCase": 0,
+    "disabledKeyguardFeatures": 0,
+    "minimumPasswordLength": 0,
+    "minimumPasswordLetters": 0,
+    "minimumPasswordSymbols": 0,
+    "passwordQuality": 0,
+    "minimumPasswordNumeric": 0,
+    "useTorForAllTraffic": false,
+    "minimumPasswordLowerCase": 0,
+    "maximumFailedPasswordsForWipe": 0,
+    "disableCamera": true,
+    "minimumPasswordNonLetter": 0,
+    "passwordExpirationTimeout": 0
+}

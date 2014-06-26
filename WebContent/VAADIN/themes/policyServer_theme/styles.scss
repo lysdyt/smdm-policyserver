@@ -1,0 +1,9 @@
+@import "addons.scss";
+@import "policyServer_theme.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in policyServer_theme.scss */
+.policyServer_theme {
+  @include addons;
+  @include policyServer_theme;
+}

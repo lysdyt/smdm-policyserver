@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE ivy-module [
+	<!ENTITY vaadin.version "7.1.13">
+]>
+<ivy-module version="2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+	<info organisation="com.example" module="v7proj" />
+	<configurations>
+		<!-- The default configuration, which should be deployed to the server -->
+		<conf name="default" />
+		<!-- A configuration only needed when compiling the widget set. Should 
+			not be deployed to the server -->
+		<conf name="widgetset-compile" />
+		<!-- A configuration used in compilation of server side classes only. Should 
+			be deployed to the server -->
+		<conf name="nodeploy" />
+	</configurations>
+	<dependencies defaultconf="default" defaultconfmapping="default->default">
+		<!-- The core server part of Vaadin -->
+		<dependency org="com.vaadin" name="vaadin-server" rev="&vaadin.version;" />
+
+		<!-- Vaadin themes -->
+		<dependency org="com.vaadin" name="vaadin-themes" rev="&vaadin.version;" />
+
+		<!-- Push support -->
+		<dependency org="com.vaadin" name="vaadin-push" rev="&vaadin.version;" />
+		<!-- Precompiled DefaultWidgetSet -->
+		<dependency org="com.vaadin" name="vaadin-client-compiled"
+			rev="&vaadin.version;" />
+
+		<!-- Vaadin client side, needed for widget set compilation -->
+		<dependency org="com.vaadin" name="vaadin-client" rev="&vaadin.version;"
+			conf="widgetset-compile->default" />
+
+		<!-- Compiler for custom widget sets. Should not be deployed -->
+		<dependency org="com.vaadin" name="vaadin-client-compiler"
+			rev="&vaadin.version;" conf="widgetset-compile->default" />
+		<!-- TODO comment and sort -->
+			<dependency org="com.google.appengine" name="appengine-api-1.0-sdk"
+			rev="1.9.6" />
+		<dependency org="javax.servlet" name="javax.servlet-api"
+			rev="3.0.1" />
+		<dependency org="javax.jdo" name="jdo-api" rev="3.0.1" />
+		<dependency org="javax.persistence" name="persistence-api"
+			rev="1.0.2" />
+
+		<dependency org="javax.inject" name="javax.inject" rev="1" />
+		<dependency org="com.google.appengine" name="appengine-api-labs"
+			rev="1.9.6" />
+		<dependency org="com.google.appengine" name="appengine-endpoints"
+			rev="1.9.6" />
+		<dependency org="com.google.android" name="android" rev="4.1.1.4" />
+		<dependency org="com.google.appengine" name="appengine"
+			rev="1.9.6" />
+		<dependency org="com.google.guava" name="guava" rev="16.0.1" />
+		<dependency org="com.google.appengine.orm" name="datanucleus-appengine"
+			rev="2.1.2" />
+		<!-- Apache IOUtils -->
+		<dependency org="org.apache.commons" name="commons-io" rev="1.3.2" />
+		<!-- MySQL -->
+		<dependency org="mysql" name="mysql-connector-java" rev="5.1.30" />
+		
+		<!-- Login form --> 
+		<dependency org="org.vaadin.addons" name="loginform" rev="0.3.3" />
+	</dependencies>
+</ivy-module>

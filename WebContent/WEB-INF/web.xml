@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="WebApp_ID" version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>SMDM-PolicyServer3</display-name>
+
+	<!-- Local DEBUG SETTINGS -->
+	
+	<context-param>
+		<param-name>dbURL</param-name>
+		<param-value>jdbc:mysql://localhost/userdb</param-value>
+	</context-param>
+	<context-param>
+		<param-name>dbUser</param-name>
+		<param-value>dbUsername</param-value>
+	</context-param>
+	<context-param>
+		<param-name>dbPassword</param-name>
+		<param-value></param-value>
+	</context-param>
+	
+	<!-- NEW ONLINE WEB SERVER -->
+	<!-- <context-param>
+		<param-name>dbURL</param-name>
+		<param-value>jdbc:mysql://mysql1.000webhost.com/a3102070_user</param-value>
+	</context-param>
+	<context-param>
+		<param-name>dbUser</param-name>
+		<param-value>a3102070_user</param-value>
+	</context-param>
+	<context-param>
+		<param-name>dbPassword</param-name>
+		<param-value>a3102070_password</param-value>
+	</context-param>
+	-->
+	<context-param>
+		<description>
+  	Vaadin production mode</description>
+		<param-name>productionMode</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>SMDM Policy Server</servlet-name>
+		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+		<init-param>
+			<description>
+  		Vaadin UI class to use</description>
+			<param-name>UI</param-name>
+			<param-value>at.fhooe.mcm.lri.smdm.server.PolicyServer</param-value>
+		</init-param>
+		<init-param>
+			<description>
+  		Legacy mode to return the value of the property as a string from AbstractProperty.toString()</description>
+			<param-name>legacyPropertyToString</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SMDM Policy Server</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+ <servlet>
+  <servlet-name>SystemServiceServlet</servlet-name>
+  <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+  <init-param>
+   <param-name>services</param-name>
+   <param-value>at.fhooe.mcm.lri.smdm.server.gae.DeviceInfoEndpoint,at.fhooe.mcm.lri.smdm.server.gae.MessageEndpoint,at.fhooe.mcm.lri.smdm.server.gae.PolicyEndpoint</param-value>
+  </init-param>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>SystemServiceServlet</servlet-name>
+  <url-pattern>/_ah/spi/*</url-pattern>
+ </servlet-mapping>
+</web-app>
